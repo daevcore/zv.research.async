@@ -1,0 +1,39 @@
+<core:View controllerName="zv.research.async.controller.App" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Page title="{i18n>title}" class="sapUiContentPadding">
+		<headerContent>
+			<Button icon="sap-icon://refresh" tooltip="Load data synchronously" press="onPressRefresh"/>
+		</headerContent>
+		<content>
+			<Panel id="idPanelOne" headerText="Panel 01" busyIndicatorDelay="0">
+				<content>
+					<List items="{oModelOne>/results}">
+						<items>
+							<StandardListItem title="{oModelOne>TimeboxTitle}" description=""></StandardListItem>
+						</items>
+					</List>
+				</content>
+			</Panel>
+			
+			<Panel id="idPanelTwo" headerText="Panel 02" busyIndicatorDelay="0">
+				<content>
+					<List items="{oModelTwo>/results}">
+						<items>
+							<StandardListItem title="{oModelTwo>StoryTitle}" description=""></StandardListItem>
+						</items>
+					</List>
+				</content>
+			</Panel>
+			
+			<Panel id="idPanelThree" headerText="Panel 03" busyIndicatorDelay="0">
+				<content>
+					<List items="{oModelThree>/results}">
+						<items>
+							<StandardListItem title="{oModelThree>Person}" description=""></StandardListItem>
+						</items>
+					</List>
+				</content>
+			</Panel>
+		</content>
+	</Page>
+</core:View>

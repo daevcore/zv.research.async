@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZV_SCRUM_SERVICE_SRV" xml:lang="de" sap:schema-version="1 "
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Team" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="TeamId"/>
+                </Key>
+                <Property Name="TeamId" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="MemberSet" Relationship="ZV_SCRUM_SERVICE_SRV.TeamToMember" FromRole="FromRole_TeamToMember" ToRole="ToRole_TeamToMember"/>
+            </EntityType>
+            <EntityType Name="Member" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="TeamMember"/>
+                </Key>
+                <Property Name="TeamMember" Type="Edm.String" Nullable="false" MaxLength="12" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TeamId" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="MemberCapacitySet" Relationship="ZV_SCRUM_SERVICE_SRV.MemberToMemberCapacity" FromRole="FromRole_MemberToMemberCapacity" ToRole="ToRole_MemberToMemberCapacity"/>
+            </EntityType>
+            <EntityType Name="MemberCapacity" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="TeamMember"/>
+                    <PropertyRef Name="ScrumDate"/>
+                </Key>
+                <Property Name="TeamMember" Type="Edm.String" Nullable="false" MaxLength="12" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ScrumDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ScrumHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Sprint" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintNr" Type="Edm.String" Nullable="false" MaxLength="3" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintStart" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintEnd" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TeamId" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="SprintStorySet" Relationship="ZV_SCRUM_SERVICE_SRV.SprintToSprintStory" FromRole="FromRole_SprintToSprintStory" ToRole="ToRole_SprintToSprintStory"/>
+                <NavigationProperty Name="SprintTimeboxSet" Relationship="ZV_SCRUM_SERVICE_SRV.SprintToSprintTimebox" FromRole="FromRole_SprintToSprintTimebox" ToRole="ToRole_SprintToSprintTimebox"/>
+                <NavigationProperty Name="Team" Relationship="ZV_SCRUM_SERVICE_SRV.SprintToTeam" FromRole="FromRole_SprintToTeam" ToRole="ToRole_SprintToTeam"/>
+            </EntityType>
+            <EntityType Name="SprintTimebox" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="TimeboxId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxTitle" Type="Edm.String" Nullable="false" MaxLength="120" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxDescr" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="SprintTimeboxDateSet" Relationship="ZV_SCRUM_SERVICE_SRV.SprintTimeboxToSprintTimeboxDate" FromRole="FromRole_SprintTimeboxToSprintTimeboxDate" ToRole="ToRole_SprintTimeboxToSprintTimeboxDate"/>
+            </EntityType>
+            <EntityType Name="SprintTimeboxDate" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="TimeboxId"/>
+                    <PropertyRef Name="TimeboxDate"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="SprintStory" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="StoryId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="SprintStoryTaskSet" Relationship="ZV_SCRUM_SERVICE_SRV.SprintStoryToSprintStoryTask" FromRole="FromRole_SprintStoryToSprintStoryTask" ToRole="ToRole_SprintStoryToSprintStoryTask"/>
+                <NavigationProperty Name="Story" Relationship="ZV_SCRUM_SERVICE_SRV.SprintStoryToStory" FromRole="FromRole_SprintStoryToStory" ToRole="ToRole_SprintStoryToStory"/>
+            </EntityType>
+            <EntityType Name="SprintStoryTask" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="StoryId"/>
+                    <PropertyRef Name="TaskId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskTitle" Type="Edm.String" Nullable="false" MaxLength="120" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskDescr" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="SprintStoryTaskDateSet" Relationship="ZV_SCRUM_SERVICE_SRV.SprintStoryTaskToSprintStoryTaskDate" FromRole="FromRole_SprintStoryTaskToSprintStoryTaskDate" ToRole="ToRole_SprintStoryTaskToSprintStoryTaskDate"/>
+            </EntityType>
+            <EntityType Name="SprintStoryTaskDate" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="StoryId"/>
+                    <PropertyRef Name="TaskId"/>
+                    <PropertyRef Name="TaskDate"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TaskHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Story" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="StoryId"/>
+                </Key>
+                <Property Name="StoryId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryTitle" Type="Edm.String" Nullable="false" MaxLength="255" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryDescr" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryPoints" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryStatus" Type="Edm.String" Nullable="false" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryJira" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StorySprintEstimated" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="DashboardData" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintNr" Type="Edm.String" Nullable="false" MaxLength="3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintStart" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintEnd" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintStatus" Type="Edm.String" Nullable="false" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursDelta" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursRemainingTeam" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursRemainingUser" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryPointsTotal" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryPointsOpen" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryPointsInProcess" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryPointsDone" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxHoursUsed" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxHoursTotal" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="DashboardDateSet" Relationship="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardDate" FromRole="FromRole_DashboardDataToDashboardDate" ToRole="ToRole_DashboardDataToDashboardDate"/>
+                <NavigationProperty Name="DashboardStorySet" Relationship="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardStory" FromRole="FromRole_DashboardDataToDashboardStory" ToRole="ToRole_DashboardDataToDashboardStory"/>
+                <NavigationProperty Name="DashboardTimeboxSet" Relationship="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardTimebox" FromRole="FromRole_DashboardDataToDashboardTimebox" ToRole="ToRole_DashboardDataToDashboardTimebox"/>
+                <NavigationProperty Name="DashboardActivitySet" Relationship="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardActivity" FromRole="FromRole_DashboardDataToDashboardActivity" ToRole="ToRole_DashboardDataToDashboardActivity"/>
+            </EntityType>
+            <EntityType Name="DashboardDate" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="SprintDate"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SprintDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursRemainingTeam" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursEstimated" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoursTimebox" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="DashboardStory" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="StoryId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryTitle" Type="Edm.String" Nullable="false" MaxLength="255" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoryProgress" Type="Edm.String" Nullable="false" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="DashboardTimebox" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="TimeboxId"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxHours" Type="Edm.Int16" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeboxTitle" Type="Edm.String" Nullable="false" MaxLength="120" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="DashboardActivity" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SprintId"/>
+                    <PropertyRef Name="Timestamp"/>
+                </Key>
+                <Property Name="SprintId" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Timestamp" Type="Edm.String" Nullable="false" MaxLength="14" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Person" Type="Edm.String" Nullable="false" MaxLength="60" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="60" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="DashboardDataToDashboardDate" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardData" Multiplicity="1" Role="FromRole_DashboardDataToDashboardDate"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardDate" Multiplicity="*" Role="ToRole_DashboardDataToDashboardDate"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_DashboardDataToDashboardDate">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_DashboardDataToDashboardDate">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="DashboardDataToDashboardStory" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardData" Multiplicity="1" Role="FromRole_DashboardDataToDashboardStory"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardStory" Multiplicity="*" Role="ToRole_DashboardDataToDashboardStory"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_DashboardDataToDashboardStory">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_DashboardDataToDashboardStory">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="DashboardDataToDashboardTimebox" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardData" Multiplicity="1" Role="FromRole_DashboardDataToDashboardTimebox"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardTimebox" Multiplicity="*" Role="ToRole_DashboardDataToDashboardTimebox"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_DashboardDataToDashboardTimebox">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_DashboardDataToDashboardTimebox">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="DashboardDataToDashboardActivity" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardData" Multiplicity="1" Role="FromRole_DashboardDataToDashboardActivity"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.DashboardActivity" Multiplicity="*" Role="ToRole_DashboardDataToDashboardActivity"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_DashboardDataToDashboardActivity">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_DashboardDataToDashboardActivity">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="TeamToMember" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.Team" Multiplicity="1" Role="FromRole_TeamToMember"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.Member" Multiplicity="*" Role="ToRole_TeamToMember"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_TeamToMember">
+                        <PropertyRef Name="TeamId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_TeamToMember">
+                        <PropertyRef Name="TeamId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MemberToMemberCapacity" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.Member" Multiplicity="1" Role="FromRole_MemberToMemberCapacity"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.MemberCapacity" Multiplicity="*" Role="ToRole_MemberToMemberCapacity"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_MemberToMemberCapacity">
+                        <PropertyRef Name="TeamMember"/>
+                    </Principal>
+                    <Dependent Role="ToRole_MemberToMemberCapacity">
+                        <PropertyRef Name="TeamMember"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SprintToTeam" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.Sprint" Multiplicity="1" Role="FromRole_SprintToTeam"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.Team" Multiplicity="1" Role="ToRole_SprintToTeam"/>
+            </Association>
+            <Association Name="SprintToSprintTimebox" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.Sprint" Multiplicity="1" Role="FromRole_SprintToSprintTimebox"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintTimebox" Multiplicity="*" Role="ToRole_SprintToSprintTimebox"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SprintToSprintTimebox">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SprintToSprintTimebox">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SprintToSprintStory" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.Sprint" Multiplicity="1" Role="FromRole_SprintToSprintStory"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStory" Multiplicity="*" Role="ToRole_SprintToSprintStory"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SprintToSprintStory">
+                        <PropertyRef Name="SprintId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SprintToSprintStory">
+                        <PropertyRef Name="SprintId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SprintStoryToSprintStoryTask" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStory" Multiplicity="1" Role="FromRole_SprintStoryToSprintStoryTask"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStoryTask" Multiplicity="*" Role="ToRole_SprintStoryToSprintStoryTask"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SprintStoryToSprintStoryTask">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="StoryId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SprintStoryToSprintStoryTask">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="StoryId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SprintStoryToStory" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStory" Multiplicity="1" Role="FromRole_SprintStoryToStory"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.Story" Multiplicity="1" Role="ToRole_SprintStoryToStory"/>
+            </Association>
+            <Association Name="SprintTimeboxToSprintTimeboxDate" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintTimebox" Multiplicity="1" Role="FromRole_SprintTimeboxToSprintTimeboxDate"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintTimeboxDate" Multiplicity="*" Role="ToRole_SprintTimeboxToSprintTimeboxDate"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SprintTimeboxToSprintTimeboxDate">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="TimeboxId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SprintTimeboxToSprintTimeboxDate">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="TimeboxId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SprintStoryTaskToSprintStoryTaskDate" sap:content-version="1">
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStoryTask" Multiplicity="1" Role="FromRole_SprintStoryTaskToSprintStoryTaskDate"/>
+                <End Type="ZV_SCRUM_SERVICE_SRV.SprintStoryTaskDate" Multiplicity="*" Role="ToRole_SprintStoryTaskToSprintStoryTaskDate"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SprintStoryTaskToSprintStoryTaskDate">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="StoryId"/>
+                        <PropertyRef Name="TaskId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SprintStoryTaskToSprintStoryTaskDate">
+                        <PropertyRef Name="SprintId"/>
+                        <PropertyRef Name="StoryId"/>
+                        <PropertyRef Name="TaskId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZV_SCRUM_SERVICE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="MemberSet" EntityType="ZV_SCRUM_SERVICE_SRV.Member" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="MemberCapacitySet" EntityType="ZV_SCRUM_SERVICE_SRV.MemberCapacity" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintSet" EntityType="ZV_SCRUM_SERVICE_SRV.Sprint" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintTimeboxSet" EntityType="ZV_SCRUM_SERVICE_SRV.SprintTimebox" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintTimeboxDateSet" EntityType="ZV_SCRUM_SERVICE_SRV.SprintTimeboxDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintStorySet" EntityType="ZV_SCRUM_SERVICE_SRV.SprintStory" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintStoryTaskSet" EntityType="ZV_SCRUM_SERVICE_SRV.SprintStoryTask" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SprintStoryTaskDateSet" EntityType="ZV_SCRUM_SERVICE_SRV.SprintStoryTaskDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="StorySet" EntityType="ZV_SCRUM_SERVICE_SRV.Story" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DashboardDataSet" EntityType="ZV_SCRUM_SERVICE_SRV.DashboardData" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DashboardDateSet" EntityType="ZV_SCRUM_SERVICE_SRV.DashboardDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DashboardStorySet" EntityType="ZV_SCRUM_SERVICE_SRV.DashboardStory" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DashboardTimeboxSet" EntityType="ZV_SCRUM_SERVICE_SRV.DashboardTimebox" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="DashboardActivitySet" EntityType="ZV_SCRUM_SERVICE_SRV.DashboardActivity" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="TeamSet" EntityType="ZV_SCRUM_SERVICE_SRV.Team" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="SprintStoryToStorySet" Association="ZV_SCRUM_SERVICE_SRV.SprintStoryToStory" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintStorySet" Role="FromRole_SprintStoryToStory"/>
+                    <End EntitySet="StorySet" Role="ToRole_SprintStoryToStory"/>
+                </AssociationSet>
+                <AssociationSet Name="DashboardDataToDashboardTimeboxSet" Association="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardTimebox" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DashboardDataSet" Role="FromRole_DashboardDataToDashboardTimebox"/>
+                    <End EntitySet="DashboardTimeboxSet" Role="ToRole_DashboardDataToDashboardTimebox"/>
+                </AssociationSet>
+                <AssociationSet Name="DashboardDataToDashboardActivitySet" Association="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardActivity" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DashboardDataSet" Role="FromRole_DashboardDataToDashboardActivity"/>
+                    <End EntitySet="DashboardActivitySet" Role="ToRole_DashboardDataToDashboardActivity"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintStoryTaskToSprintStoryTaskDateSet" Association="ZV_SCRUM_SERVICE_SRV.SprintStoryTaskToSprintStoryTaskDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintStoryTaskSet" Role="FromRole_SprintStoryTaskToSprintStoryTaskDate"/>
+                    <End EntitySet="SprintStoryTaskDateSet" Role="ToRole_SprintStoryTaskToSprintStoryTaskDate"/>
+                </AssociationSet>
+                <AssociationSet Name="TeamToMemberSet" Association="ZV_SCRUM_SERVICE_SRV.TeamToMember" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TeamSet" Role="FromRole_TeamToMember"/>
+                    <End EntitySet="MemberSet" Role="ToRole_TeamToMember"/>
+                </AssociationSet>
+                <AssociationSet Name="DashboardDataToDashboardDateSet" Association="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DashboardDataSet" Role="FromRole_DashboardDataToDashboardDate"/>
+                    <End EntitySet="DashboardDateSet" Role="ToRole_DashboardDataToDashboardDate"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintToSprintStorySet" Association="ZV_SCRUM_SERVICE_SRV.SprintToSprintStory" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintSet" Role="FromRole_SprintToSprintStory"/>
+                    <End EntitySet="SprintStorySet" Role="ToRole_SprintToSprintStory"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintStoryToSprintStoryTaskSet" Association="ZV_SCRUM_SERVICE_SRV.SprintStoryToSprintStoryTask" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintStorySet" Role="FromRole_SprintStoryToSprintStoryTask"/>
+                    <End EntitySet="SprintStoryTaskSet" Role="ToRole_SprintStoryToSprintStoryTask"/>
+                </AssociationSet>
+                <AssociationSet Name="DashboardDataToDashboardStorySet" Association="ZV_SCRUM_SERVICE_SRV.DashboardDataToDashboardStory" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DashboardDataSet" Role="FromRole_DashboardDataToDashboardStory"/>
+                    <End EntitySet="DashboardStorySet" Role="ToRole_DashboardDataToDashboardStory"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintTimeboxToSprintTimeboxDateSet" Association="ZV_SCRUM_SERVICE_SRV.SprintTimeboxToSprintTimeboxDate" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintTimeboxSet" Role="FromRole_SprintTimeboxToSprintTimeboxDate"/>
+                    <End EntitySet="SprintTimeboxDateSet" Role="ToRole_SprintTimeboxToSprintTimeboxDate"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintToTeamSet" Association="ZV_SCRUM_SERVICE_SRV.SprintToTeam" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintSet" Role="FromRole_SprintToTeam"/>
+                    <End EntitySet="TeamSet" Role="ToRole_SprintToTeam"/>
+                </AssociationSet>
+                <AssociationSet Name="SprintToSprintTimeboxSet" Association="ZV_SCRUM_SERVICE_SRV.SprintToSprintTimebox" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SprintSet" Role="FromRole_SprintToSprintTimebox"/>
+                    <End EntitySet="SprintTimeboxSet" Role="ToRole_SprintToSprintTimebox"/>
+                </AssociationSet>
+                <AssociationSet Name="MemberToMemberCapacitySet" Association="ZV_SCRUM_SERVICE_SRV.MemberToMemberCapacity" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="MemberSet" Role="FromRole_MemberToMemberCapacity"/>
+                    <End EntitySet="MemberCapacitySet" Role="ToRole_MemberToMemberCapacity"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://VM-ZVSAPLX12.ZETVISIONS.DE:8080/sap/opu/odata/sap/ZV_SCRUM_SERVICE_SRV/$metadata"
+                xmlns:atom="http://www.w3.org/2005/Atom"/>
+                <atom:link rel="latest-version" href="http://VM-ZVSAPLX12.ZETVISIONS.DE:8080/sap/opu/odata/sap/ZV_SCRUM_SERVICE_SRV/$metadata"
+                    xmlns:atom="http://www.w3.org/2005/Atom"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
